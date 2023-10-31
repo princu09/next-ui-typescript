@@ -1,18 +1,13 @@
-"use client";
-import { useDispatch } from "react-redux";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { setMobileView } from "@/redux/slices/viewportSlice";
+import useViewportStore from "@/store/viewportStore";
 
 const RouteHandler = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-  const dispatch = useDispatch();
+  const setMobileView = useViewportStore((state) => state.setMobileView);
 
   const viewChange = () => {
     if (window.innerWidth < 1024) {
-      dispatch(setMobileView(true));
+      setMobileView(true);
     } else {
-      dispatch(setMobileView(false));
+      setMobileView(false);
     }
   };
 

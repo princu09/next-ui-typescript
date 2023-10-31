@@ -1,16 +1,14 @@
-// app/providers.tsx
 "use client";
-
 import { NextUIProvider } from "@nextui-org/react";
 import RouteHandler from "./RouteHandler";
-import { StoreProvider } from "./StoreProvider";
+import { SessionProvider } from "next-auth/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <StoreProvider>
+      <SessionProvider>
         <RouteHandler>{children}</RouteHandler>
-      </StoreProvider>
+      </SessionProvider>
     </NextUIProvider>
   );
 }
