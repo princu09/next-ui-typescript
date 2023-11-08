@@ -1,19 +1,19 @@
 import axios, { AxiosResponse } from "axios";
-import { getCookie } from "./CookieHandler";
+import Cookies from "js-cookie";
 
 // Create an Axios instance
-const api = axios.create({
+const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-api.interceptors.request.use(
+apiClient.interceptors.request.use(
   async (config) => {
     let token;
 
-    token = getCookie();
+    token = Cookies.get("next-new-token");
 
     // If a session exists and it contains a user object with a JWT token, add it to the request headers
-    config.headers["Authorization"] = `Bearer ${token?.value}`;
+    config.headers["Authorization"] = `Bearer ${token}`;
 
     return config;
   },
@@ -23,7 +23,7 @@ api.interceptors.request.use(
 );
 
 // Response interceptor (optional)
-api.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response: AxiosResponse<any>) => {
     // Handle successful responses globally if needed.
     if (response.status == 200 || response.status == 201) {
@@ -38,4 +38,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export default apiClient;
